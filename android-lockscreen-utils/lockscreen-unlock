@@ -37,9 +37,7 @@ _root_unlock() {
     )
   fi
   _status="$( \
-    displayctl \
-      get \
-      status)"
+    display-status)"
   if [[ "${_status}" == "off" ]]; then
     displayctl \
       "${_displayctl_opts[@]}" \
@@ -49,7 +47,8 @@ _root_unlock() {
     sdotool \
       key \
       "Unlock"
-  fi
+  fi || \
+    true
 }
 
 _lockscreen_unlock() {
