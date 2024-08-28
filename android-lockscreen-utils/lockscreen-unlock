@@ -28,13 +28,28 @@ _global_variables() {
 }
 
 _root_unlock() {
-  displayctl \
-    set \
-    status \
-    "on"
-  sdotool \
-    key \
-    "Unlock"
+  local \
+    _displayctl_opts=() \
+    _status
+  if [[ "${quiet}" != "y" ]]; then
+    _displayctl_opts=(
+      -v
+    )
+  fi
+  _status="$( \
+    displayctl \
+      get \
+      status)"
+  if [[ "${_status}" == "off" ]]; then
+    displayctl \
+      "${_displayctl_opts[@]}" \
+      set \
+        status \
+        "on"
+    sdotool \
+      key \
+      "Unlock"
+  fi
 }
 
 _lockscreen_unlock() {
