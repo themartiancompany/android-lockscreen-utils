@@ -15,6 +15,15 @@ source \
 
 _root_requirements() {
   _check_cmd \
+    "displayctl" \
+    "displayctl"
+  _check_cmd \
+    "display-status" \
+    "android-display-utils"
+  _check_cmd \
+    "sdotool" \
+    "sdotool"
+  _check_cmd \
     "su" \
     "tsu"
 }
