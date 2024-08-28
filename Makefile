@@ -19,6 +19,7 @@ install: install-scripts install-doc
 
 install-scripts:
 
+	install -vDm 755 android-lockscreen-utils/lockscreen-lock "$(BIN_DIR)/lockscreen-lock"
 	install -vDm 755 android-lockscreen-utils/lockscreen-unlock "$(BIN_DIR)/lockscreen-unlock"
 
 install-doc:
