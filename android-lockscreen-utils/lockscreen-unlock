@@ -30,13 +30,13 @@ _root_requirements() {
 
 # shellcheck disable=SC2034
 _global_variables() {
-  unlock_date=""
-  unlock_mode=""
+  lock_date=""
+  lock_mode=""
   color=""
   quiet=""
 }
 
-_root_unlock() {
+_root_lock() {
   local \
     _displayctl_opts=() \
     _status
@@ -47,23 +47,20 @@ _root_unlock() {
   fi
   _status="$( \
     display-status)"
-  if [[ "${_status}" == "off" ]]; then
+  if [[ "${_status}" == "on" ]]; then
     displayctl \
       "${_displayctl_opts[@]}" \
       set \
         status \
-        "on"
-    sdotool \
-      key \
-      "Unlock"
+        "off"
   fi || \
     true
 }
 
-_lockscreen_unlock() {
+_lockscreen_lock() {
   local \
     _mode="${1}"
-  "_${_mode}_unlock"
+  "_${_mode}_lock"
 }
 
 _auto_detect_mode() {
@@ -84,11 +81,11 @@ _auto_detect_mode() {
 
 _set_overrides() {
   _set_override \
-    "unlock" \
+    "lock" \
     "date" \
     "$(_get_date_human)"
   _set_override \
-    "unlock" \
+    "lock" \
     "mode" \
     "$(_auto_detect_mode)"
   if [[ -v override_color ]]; then
@@ -106,8 +103,8 @@ _set_overrides() {
 # Shows configuration options.
 _show_config() {
   _msg_info "${app_name} configuration"
-  _msg_info "   Display unlock at date:   $(_get "unlock" "date")"
-  _msg_info "              Unlock mode:   $(_get "unlock" "mode")"
+  _msg_info "     Display lock at date:   $(_get "lock" "date")"
+  _msg_info "                Lock mode:   $(_get "lock" "mode")"
 }
 
 # Show help usage, with an exit status.
@@ -122,14 +119,14 @@ _usage() {
       _usage_text << \
         ENDUSAGETEXT || true
 
-Unlock Android lockscreen
+Lock Android lockscreen
 
 Usage:
   $(_get "app" "name")
     [options]
   options:
-     -m <method>          Method to unlock the screen.
-                          Default: $(_get "unlock" "mode")
+     -m <method>          Method to lock the screen.
+                          Default: $(_get "lock" "mode")
      -h                   This message.
      -v                   Enable verbose output
 ENDUSAGETEXT
@@ -150,8 +147,7 @@ while \
     arg; do
   case \
     "${arg}" in
-    m) override_unlock_mode="${OPTARG}" ;;
-    a) override_sdk_version="${OPTARG}" ;;
+    m) override_lock_mode="${OPTARG}" ;;
     c) override_color="y" ;;
     v) override_quiet="n" ;;
     h|?) _set_overrides && \
@@ -174,11 +170,11 @@ shift \
 _set_overrides
 app_opts=(
   "$(_get \
-       "unlock" \
+       "lock" \
        "mode")"
 )
 _show_config
-_lockscreen_unlock \
+_lockscreen_lock \
   "${app_opts[@]}"
 
 # vim:set sw=2 sts=-1 et:
