@@ -25,7 +25,7 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 
 
-_PROJECT=android-lockscren-utils
+_PROJECT=android-lockscreen-utils
 PREFIX ?= /usr/local
 DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/$(_PROJECT)
 BIN_DIR=$(DESTDIR)$(PREFIX)/bin
